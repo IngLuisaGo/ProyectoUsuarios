@@ -177,6 +177,9 @@
     <None Include="Connected Services\ServiceUsuariosR\ServiceUsuario2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Connected Services\ServiceUsuariosR\WebFrontUsuario.ServiceUsuariosR.BUsuarios.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebFrontUsuario.Models.UsuarioViewModel>
+﻿@model List<WebFrontUsuario.Models.UsuarioViewModel>
 
 @{
     ViewBag.Title = "Usuarios Consulta";
@@ -9,13 +9,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Nombre)
+            @Html.DisplayNameFor(model => model[0].Nombre) <!-- Mostrar el encabezado del nombre del primer elemento en la lista -->
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Fecha)
+            @Html.DisplayNameFor(model => model[0].Fecha) <!-- Mostrar el encabezado de la fecha del primer elemento en la lista -->
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Sexo)
+            @Html.DisplayNameFor(model => model[0].Sexo) <!-- Mostrar el encabezado del sexo del primer elemento en la lista -->
         </th>
         <th></th>
     </tr>
@@ -24,13 +24,13 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
+                @Html.DisplayFor(modelItem => item.Nombre) <!-- Mostrar el nombre del usuario actual en la lista -->
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
+                @Html.DisplayFor(modelItem => item.Fecha) <!-- Mostrar la fecha del usuario actual en la lista -->
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sexo)
+                @Html.DisplayFor(modelItem => item.Sexo) <!-- Mostrar el sexo del usuario actual en la lista -->
             </td>
             <td>
                 @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |

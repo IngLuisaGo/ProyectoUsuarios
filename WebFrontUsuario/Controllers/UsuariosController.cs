@@ -66,8 +66,22 @@ namespace WebFrontUsuario.Controllers
         // GET: Usuarios/UsuariosConsulta
         public ActionResult UsuariosConsulta()
         {
-            return View(usuarioViewModel);
+            ServiceUsuariosR.ServiceUsuarioClient client = new ServiceUsuariosR.ServiceUsuarioClient();
+            var usuarios = client.ConsultarUsuarios(); // Llama al método del servicio para obtener los usuarios
+
+            // Mapea los usuarios del tipo BUsuarios al modelo de vista UsuarioViewModel si es necesario
+            var viewModelUsuarios = usuarios.Select(u => new UsuarioViewModel
+            {
+                Id = u.Id,
+                Nombre = u.Nombre,
+                Fecha = u.Fecha,
+                Sexo = u.Sexo.ToString() // Asegúrate de convertir el sexo según corresponda
+            }).ToList();
+
+            return View(viewModelUsuarios); // Retorna la vista con la lista de usuarios
         }
+
+
 
         //// GET: Usuario/Edit/5
         //public ActionResult Edit(int id)

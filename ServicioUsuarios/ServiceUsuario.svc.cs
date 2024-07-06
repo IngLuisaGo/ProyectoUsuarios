@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 using Entidades;
+using System.Collections.Generic;
 
 namespace ServicioUsuarios
 {
@@ -52,6 +53,45 @@ namespace ServicioUsuarios
         public string EliminarUsuario(BUsuarios usuario)
         {
             throw new NotImplementedException();
+        }
+
+        public List<BUsuarios> ConsultarUsuarios()
+        {
+            List<BUsuarios> usuarios = new List<BUsuarios>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand("sp_ListarUsuarios", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                BUsuarios usuario = new BUsuarios();
+                                usuario.Id = Convert.ToInt32(reader["Id"]);
+                                usuario.Nombre = Convert.ToString(reader["Nombre"]);
+                                usuario.Fecha = Convert.ToDateTime(reader["Fecha"]);
+                                usuario.Sexo = Convert.ToChar(reader["Sexo"]);
+
+                                usuarios.Add(usuario);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción según sea necesario
+                throw new Exception($"Error al listar usuarios: {ex.Message}");
+            }
+
+            return usuarios;
         }
     }
 }

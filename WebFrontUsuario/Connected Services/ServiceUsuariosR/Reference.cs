@@ -127,6 +127,12 @@ namespace WebFrontUsuario.ServiceUsuariosR {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/EliminarUsuario", ReplyAction="http://tempuri.org/IServiceUsuario/EliminarUsuarioResponse")]
         System.Threading.Tasks.Task<string> EliminarUsuarioAsync(WebFrontUsuario.ServiceUsuariosR.BUsuarios usuario);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/ConsultarUsuarios", ReplyAction="http://tempuri.org/IServiceUsuario/ConsultarUsuariosResponse")]
+        WebFrontUsuario.ServiceUsuariosR.BUsuarios[] ConsultarUsuarios();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/ConsultarUsuarios", ReplyAction="http://tempuri.org/IServiceUsuario/ConsultarUsuariosResponse")]
+        System.Threading.Tasks.Task<WebFrontUsuario.ServiceUsuariosR.BUsuarios[]> ConsultarUsuariosAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -178,6 +184,14 @@ namespace WebFrontUsuario.ServiceUsuariosR {
         
         public System.Threading.Tasks.Task<string> EliminarUsuarioAsync(WebFrontUsuario.ServiceUsuariosR.BUsuarios usuario) {
             return base.Channel.EliminarUsuarioAsync(usuario);
+        }
+        
+        public WebFrontUsuario.ServiceUsuariosR.BUsuarios[] ConsultarUsuarios() {
+            return base.Channel.ConsultarUsuarios();
+        }
+        
+        public System.Threading.Tasks.Task<WebFrontUsuario.ServiceUsuariosR.BUsuarios[]> ConsultarUsuariosAsync() {
+            return base.Channel.ConsultarUsuariosAsync();
         }
     }
 }

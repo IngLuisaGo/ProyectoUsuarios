@@ -25,6 +25,12 @@
   <wsdl:message name="IServiceUsuario_EliminarUsuario_OutputMessage">
     <wsdl:part name="parameters" element="tns:EliminarUsuarioResponse" />
   </wsdl:message>
+  <wsdl:message name="IServiceUsuario_ConsultarUsuarios_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarUsuarios" />
+  </wsdl:message>
+  <wsdl:message name="IServiceUsuario_ConsultarUsuarios_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarUsuariosResponse" />
+  </wsdl:message>
   <wsdl:portType name="IServiceUsuario">
     <wsdl:operation name="InsertarUsuario">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceUsuario/InsertarUsuario" message="tns:IServiceUsuario_InsertarUsuario_InputMessage" />
@@ -37,6 +43,10 @@
     <wsdl:operation name="EliminarUsuario">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceUsuario/EliminarUsuario" message="tns:IServiceUsuario_EliminarUsuario_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceUsuario/EliminarUsuarioResponse" message="tns:IServiceUsuario_EliminarUsuario_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarUsuarios">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceUsuario/ConsultarUsuarios" message="tns:IServiceUsuario_ConsultarUsuarios_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceUsuario/ConsultarUsuariosResponse" message="tns:IServiceUsuario_ConsultarUsuarios_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IServiceUsuario" type="tns:IServiceUsuario">
@@ -61,6 +71,15 @@
     </wsdl:operation>
     <wsdl:operation name="EliminarUsuario">
       <soap:operation soapAction="http://tempuri.org/IServiceUsuario/EliminarUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarUsuarios">
+      <soap:operation soapAction="http://tempuri.org/IServiceUsuario/ConsultarUsuarios" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

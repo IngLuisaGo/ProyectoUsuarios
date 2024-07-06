@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
 using Entidades;
 
 namespace ServicioUsuarios
@@ -14,5 +15,8 @@ namespace ServicioUsuarios
 
         [OperationContract]
         string EliminarUsuario(BUsuarios usuario);
+
+        [OperationContract]
+        List<BUsuarios> ConsultarUsuarios();
     }
 }

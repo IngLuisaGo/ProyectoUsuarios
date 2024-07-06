@@ -43,4 +43,16 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="ConsultarUsuarios">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsultarUsuariosResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Entidades" minOccurs="0" name="ConsultarUsuariosResult" nillable="true" type="q4:ArrayOfBUsuarios" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>
