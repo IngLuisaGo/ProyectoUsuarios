@@ -44,3 +44,35 @@ textarea {
 .mb-3 {
     margin-bottom: 1rem;
 }
+
+/* Styles for navigation bar */
+.navbar {
+    margin-bottom: 0; /* No margin at the bottom */
+    border-radius: 0; /* No rounded corners */
+}
+
+.navbar-inverse {
+    background-color: #222; /* Background color */
+    border-color: #080808; /* Border color */
+}
+
+    .navbar-inverse .navbar-brand {
+        color: #ffffff; /* Text color for brand */
+    }
+
+    .navbar-inverse .navbar-nav > li > a {
+        color: #ffffff; /* Text color for nav links */
+    }
+
+        .navbar-inverse .navbar-nav > li > a:hover {
+            background-color: #080808; /* Background color on hover */
+        }
+
+.container.body-content {
+    padding-top: 70px; /* Ensure content doesn't overlap with fixed navbar */
+}
+
+footer {
+    padding: 10px 0; /* Padding for footer */
+    text-align: center; /* Center align footer text */
+}
