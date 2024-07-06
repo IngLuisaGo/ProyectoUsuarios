@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -161,7 +162,7 @@ namespace WebFrontUsuario.Controllers
                     {
                         Id = model.Id,
                         Nombre = model.Nombre,
-                        Fecha = model.Fecha,
+                        Fecha = model.Fecha, // Asignar directamente, ya que model.Fecha es un DateTime
                         Sexo = string.IsNullOrEmpty(model.Sexo) ? '\0' : model.Sexo[0] // Convertir string a char
                     };
 

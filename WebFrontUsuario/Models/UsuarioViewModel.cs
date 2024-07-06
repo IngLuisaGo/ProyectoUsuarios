@@ -16,7 +16,8 @@ namespace WebFrontUsuario.Models
         public string Nombre { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
+        [Display(Name = "Fecha")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Fecha { get; set; }
 
         [Required]
