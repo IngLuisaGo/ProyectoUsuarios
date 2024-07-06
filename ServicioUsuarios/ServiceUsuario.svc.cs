@@ -52,7 +52,28 @@ namespace ServicioUsuarios
 
         public string EliminarUsuario(BUsuarios usuario)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand("sp_EliminarUsuario", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Id", usuario.Id);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        return rowsAffected > 0 ? "Usuario eliminado correctamente" : "No se pudo eliminar el usuario";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción según sea necesario
+                return $"Error al eliminar usuario: {ex.Message}";
+            }
         }
 
         public List<BUsuarios> ConsultarUsuarios()

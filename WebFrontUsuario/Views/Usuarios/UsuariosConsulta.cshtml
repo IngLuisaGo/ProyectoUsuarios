@@ -36,7 +36,7 @@
             <td>
                 @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
+                @Html.ActionLink("Eliminar", "EliminarUsuario", new { id = item.Id }, new { @class = "delete-link", data_id = item.Id })
             </td>
         </tr>
     }
@@ -46,3 +46,33 @@
 <div class="text-center">
     @Html.PagedListPager(Model, page => Url.Action("UsuariosConsulta", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $(".delete-link").click(function (e) {
+                e.preventDefault();
+                var userId = $(this).data("id");
+                if (confirm("¿Está seguro de que desea eliminar este usuario?")) {
+                    $.ajax({
+                        url: '@Url.Action("EliminarUsuario", "Usuarios")',
+                        type: 'POST',
+                        data: { id: userId },
+                        success: function (result) {
+                            if (result.success) {
+                                alert(result.message);
+                                location.reload(); // Recargar la página después de eliminar
+                            } else {
+                                alert(result.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText); // Mostrar respuesta detallada del servidor en la consola
+                            alert("Error al intentar eliminar el usuario. Consulte la consola para más detalles.");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

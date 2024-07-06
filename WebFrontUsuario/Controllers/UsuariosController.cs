@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using ServicioUsuarios;
 using WebFrontUsuario.ServiceUsuariosR;
 using PagedList;
+using System;
 
 namespace WebFrontUsuario.Controllers
 {
@@ -87,6 +88,31 @@ namespace WebFrontUsuario.Controllers
         }
 
 
+        // POST: Usuario/EliminarUsuario
+        [HttpPost]
+        public JsonResult EliminarUsuario(int id)
+        {
+            try
+            {
+                var usuario = new BUsuarios { Id = id };
+
+                // Llamar al método de servicio para eliminar usuario
+                ServiceUsuarioClient client = new ServiceUsuarioClient();
+                string resultMessage = client.EliminarUsuario(usuario);
+
+                if (resultMessage.Contains("Error"))
+                {
+                    return Json(new { success = false, message = resultMessage });
+                }
+
+                return Json(new { success = true, message = "Usuario eliminado correctamente." });
+            }
+            catch (Exception ex)
+            {
+                // Manejar excepciones generales
+                return Json(new { success = false, message = $"Error al intentar eliminar el usuario: {ex.Message}" });
+            }
+        }
 
         //// GET: Usuario/Edit/5
         //public ActionResult Edit(int id)
@@ -120,29 +146,6 @@ namespace WebFrontUsuario.Controllers
         //    }
         //    return View(usuario);
         //}
-
-        //// GET: Usuario/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    var usuario = usuarios.FirstOrDefault(u => u.Id == id);
-        //    if (usuario == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(usuario);
-        //}
-
-        //// POST: Usuario/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    var usuario = usuarios.FirstOrDefault(u => u.Id == id);
-        //    if (usuario != null)
-        //    {
-        //        usuarios.Remove(usuario);
-        //    }
-        //    return RedirectToAction("Index");
-        //}
     }
+
 }
