@@ -32,7 +32,7 @@ namespace WebFrontUsuario.ServiceUsuariosR {
         private string NombreField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string SexoField;
+        private char SexoField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -84,12 +84,12 @@ namespace WebFrontUsuario.ServiceUsuariosR {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Sexo {
+        public char Sexo {
             get {
                 return this.SexoField;
             }
             set {
-                if ((object.ReferenceEquals(this.SexoField, value) != true)) {
+                if ((this.SexoField.Equals(value) != true)) {
                     this.SexoField = value;
                     this.RaisePropertyChanged("Sexo");
                 }
@@ -111,10 +111,10 @@ namespace WebFrontUsuario.ServiceUsuariosR {
     public interface IServiceUsuario {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/InsertarUsuario", ReplyAction="http://tempuri.org/IServiceUsuario/InsertarUsuarioResponse")]
-        string InsertarUsuario(WebFrontUsuario.ServiceUsuariosR.BUsuarios usuario);
+        bool InsertarUsuario(WebFrontUsuario.ServiceUsuariosR.BUsuarios usuario);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/InsertarUsuario", ReplyAction="http://tempuri.org/IServiceUsuario/InsertarUsuarioResponse")]
-        System.Threading.Tasks.Task<string> InsertarUsuarioAsync(WebFrontUsuario.ServiceUsuariosR.BUsuarios usuario);
+        System.Threading.Tasks.Task<bool> InsertarUsuarioAsync(WebFrontUsuario.ServiceUsuariosR.BUsuarios usuario);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/EditarUsuario", ReplyAction="http://tempuri.org/IServiceUsuario/EditarUsuarioResponse")]
         string EditarUsuario(WebFrontUsuario.ServiceUsuariosR.BUsuarios usuario);
@@ -156,11 +156,11 @@ namespace WebFrontUsuario.ServiceUsuariosR {
                 base(binding, remoteAddress) {
         }
         
-        public string InsertarUsuario(WebFrontUsuario.ServiceUsuariosR.BUsuarios usuario) {
+        public bool InsertarUsuario(WebFrontUsuario.ServiceUsuariosR.BUsuarios usuario) {
             return base.Channel.InsertarUsuario(usuario);
         }
         
-        public System.Threading.Tasks.Task<string> InsertarUsuarioAsync(WebFrontUsuario.ServiceUsuariosR.BUsuarios usuario) {
+        public System.Threading.Tasks.Task<bool> InsertarUsuarioAsync(WebFrontUsuario.ServiceUsuariosR.BUsuarios usuario) {
             return base.Channel.InsertarUsuarioAsync(usuario);
         }
         
