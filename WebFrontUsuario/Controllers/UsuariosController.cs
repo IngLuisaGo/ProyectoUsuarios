@@ -1,12 +1,11 @@
-﻿using System.Linq;
-using System.Net;
-using System.Web.Mvc;
-using WebFrontUsuario.Models;
+﻿using System;
 using System.Collections.Generic;
-using ServicioUsuarios;
-using WebFrontUsuario.ServiceUsuariosR;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 using PagedList;
-using System;
+using WebFrontUsuario.Models;
+using WebFrontUsuario.ServiceUsuariosR;
 
 namespace WebFrontUsuario.Controllers
 {
@@ -29,7 +28,7 @@ namespace WebFrontUsuario.Controllers
         // POST: Usuarios
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Usuarios(UsuarioViewModel model)
+        public async Task<ActionResult> Usuarios(UsuarioViewModel model)
         {
             ServiceUsuarioClient client = new ServiceUsuarioClient();
             BUsuarios usuario = new BUsuarios
@@ -41,7 +40,7 @@ namespace WebFrontUsuario.Controllers
 
             if (ModelState.IsValid)
             {
-                bool isInserted = client.InsertarUsuario(usuario);
+                bool isInserted = await client.InsertarUsuarioAsync(usuario);
 
                 if (isInserted)
                 {
@@ -77,18 +76,16 @@ namespace WebFrontUsuario.Controllers
                 Id = u.Id,
                 Nombre = u.Nombre,
                 Fecha = u.Fecha,
-                Sexo = u.Sexo.ToString() // Asegúrate de convertir el sexo según corresponda
+                Sexo = u.Sexo.ToString()
             }).ToList();
 
-            // Configurar paginación
-            int pageSize = 5; // Número de registros por página
-            int pageNumber = (page ?? 1); // Número de página, si no se especifica, es la página 1
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
 
             return View(viewModelUsuarios.ToPagedList(pageNumber, pageSize));
         }
 
-
-        // POST: Usuario/EliminarUsuario
+        // POST: Usuarios/EliminarUsuario
         [HttpPost]
         public JsonResult EliminarUsuario(int id)
         {
@@ -114,38 +111,106 @@ namespace WebFrontUsuario.Controllers
             }
         }
 
-        //// GET: Usuario/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    var usuario = usuarios.FirstOrDefault(u => u.Id == id);
-        //    if (usuario == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(usuario);
-        //}
+        // GET: Usuarios/EditarUsuario/5
+        public ActionResult EditarUsuario(int id)
+        {
+            try
+            {
+                ServiceUsuarioClient client = new ServiceUsuarioClient();
+                var usuario = client.ObtenerUsuario(id); // Obtener el usuario del servicio
 
-        //// POST: Usuario/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(Usuario usuario)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var existingUsuario = usuarios.FirstOrDefault(u => u.Id == usuario.Id);
-        //        if (existingUsuario == null)
-        //        {
-        //            return HttpNotFound();
-        //        }
+                if (usuario == null)
+                {
+                    return HttpNotFound();
+                }
 
-        //        existingUsuario.Nombre = usuario.Nombre;
-        //        existingUsuario.Fecha = usuario.Fecha;
-        //        existingUsuario.Sexo = usuario.Sexo;
+                var model = new UsuarioViewModel
+                {
+                    Id = usuario.Id,
+                    Nombre = usuario.Nombre,
+                    Fecha = usuario.Fecha,
+                    Sexo = usuario.Sexo.ToString() // Asumiendo que usuario.Sexo es de tipo char
+                };
 
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(usuario);
-        //}
+                ViewBag.SexoList = new SelectList(new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Masculino", Value = "M" },
+                    new SelectListItem { Text = "Femenino", Value = "F" }
+                }, "Value", "Text");
+
+                return PartialView("_EditarUsuario", model);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error al cargar los datos del usuario: {ex.Message}");
+                // Aquí podrías redireccionar o manejar el error según tu lógica de la aplicación
+                return HttpNotFound();
+            }
+        }
+
+        // POST: Usuarios/EditarUsuario/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditarUsuario(UsuarioViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    BUsuarios usuario = new BUsuarios
+                    {
+                        Id = model.Id,
+                        Nombre = model.Nombre,
+                        Fecha = model.Fecha,
+                        Sexo = string.IsNullOrEmpty(model.Sexo) ? '\0' : model.Sexo[0] // Convertir string a char
+                    };
+
+                    ServiceUsuarioClient client = new ServiceUsuarioClient();
+                    string resultado = await client.EditarUsuarioAsync(usuario);
+
+                    return Json(new { success = true, message = resultado });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = $"Error al editar usuario: {ex.Message}" });
+                }
+            }
+            else
+            {
+                // Si el modelo no es válido, devolver los errores de validación
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return Json(new { success = false, message = string.Join("<br/>", errors) });
+            }
+        }
+
+        // GET: Usuarios/ObtenerUsuario/5
+        public ActionResult ObtenerUsuario(int id)
+        {
+            try
+            {
+                ServiceUsuarioClient client = new ServiceUsuarioClient();
+                var usuario = client.ObtenerUsuario(id); // Utilizar el método ObtenerUsuario del cliente del servicio
+
+                if (usuario == null)
+                {
+                    return HttpNotFound();
+                }
+
+                var model = new UsuarioViewModel
+                {
+                    Id = usuario.Id,
+                    Nombre = usuario.Nombre,
+                    Fecha = usuario.Fecha,
+                    Sexo = usuario.Sexo.ToString()
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error al cargar los datos del usuario: {ex.Message}");
+                return RedirectToAction("UsuariosConsulta");
+            }
+        }
     }
-
 }

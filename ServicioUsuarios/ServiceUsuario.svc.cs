@@ -45,11 +45,7 @@ namespace ServicioUsuarios
             }
         }
 
-        public string EditarUsuario(BUsuarios usuario)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public string EliminarUsuario(BUsuarios usuario)
         {
             try
@@ -114,5 +110,76 @@ namespace ServicioUsuarios
 
             return usuarios;
         }
+
+
+        public string EditarUsuario(BUsuarios usuario)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand("sp_EditarUsuario", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@Id", usuario.Id);
+                        command.Parameters.AddWithValue("@Nombre", usuario.Nombre);
+                        command.Parameters.AddWithValue("@Fecha", usuario.Fecha);
+                        command.Parameters.AddWithValue("@Sexo", usuario.Sexo);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        return rowsAffected > 0 ? "Usuario actualizado correctamente" : "No se pudo actualizar el usuario";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Error al actualizar usuario: {ex.Message}";
+            }
+        }
+
+        public BUsuarios ObtenerUsuario(int id)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand("sp_ObtenerUsuarios", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Id", id);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                BUsuarios usuario = new BUsuarios();
+                                usuario.Id = Convert.ToInt32(reader["Id"]);
+                                usuario.Nombre = Convert.ToString(reader["Nombre"]);
+                                usuario.Fecha = Convert.ToDateTime(reader["Fecha"]);
+                                usuario.Sexo = Convert.ToChar(reader["Sexo"]);
+
+                                return usuario;
+                            }
+                            else
+                            {
+                                return null; // Retorna null si no se encontró ningún usuario con ese ID
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción según sea necesario
+                throw new Exception($"Error al obtener usuario: {ex.Message}");
+            }
+        }
     }
 }
+

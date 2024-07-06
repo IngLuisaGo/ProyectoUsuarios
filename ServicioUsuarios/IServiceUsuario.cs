@@ -18,5 +18,8 @@ namespace ServicioUsuarios
 
         [OperationContract]
         List<BUsuarios> ConsultarUsuarios();
+
+        [OperationContract]
+        BUsuarios ObtenerUsuario(int id);
     }
 }

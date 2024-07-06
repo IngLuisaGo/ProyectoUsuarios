@@ -133,6 +133,12 @@ namespace WebFrontUsuario.ServiceUsuariosR {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/ConsultarUsuarios", ReplyAction="http://tempuri.org/IServiceUsuario/ConsultarUsuariosResponse")]
         System.Threading.Tasks.Task<WebFrontUsuario.ServiceUsuariosR.BUsuarios[]> ConsultarUsuariosAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/ObtenerUsuario", ReplyAction="http://tempuri.org/IServiceUsuario/ObtenerUsuarioResponse")]
+        WebFrontUsuario.ServiceUsuariosR.BUsuarios ObtenerUsuario(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/ObtenerUsuario", ReplyAction="http://tempuri.org/IServiceUsuario/ObtenerUsuarioResponse")]
+        System.Threading.Tasks.Task<WebFrontUsuario.ServiceUsuariosR.BUsuarios> ObtenerUsuarioAsync(int id);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -192,6 +198,14 @@ namespace WebFrontUsuario.ServiceUsuariosR {
         
         public System.Threading.Tasks.Task<WebFrontUsuario.ServiceUsuariosR.BUsuarios[]> ConsultarUsuariosAsync() {
             return base.Channel.ConsultarUsuariosAsync();
+        }
+        
+        public WebFrontUsuario.ServiceUsuariosR.BUsuarios ObtenerUsuario(int id) {
+            return base.Channel.ObtenerUsuario(id);
+        }
+        
+        public System.Threading.Tasks.Task<WebFrontUsuario.ServiceUsuariosR.BUsuarios> ObtenerUsuarioAsync(int id) {
+            return base.Channel.ObtenerUsuarioAsync(id);
         }
     }
 }
