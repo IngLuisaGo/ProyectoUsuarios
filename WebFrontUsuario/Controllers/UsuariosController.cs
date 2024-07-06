@@ -5,6 +5,7 @@ using WebFrontUsuario.Models;
 using System.Collections.Generic;
 using ServicioUsuarios;
 using WebFrontUsuario.ServiceUsuariosR;
+using PagedList;
 
 namespace WebFrontUsuario.Controllers
 {
@@ -64,12 +65,12 @@ namespace WebFrontUsuario.Controllers
         }
 
         // GET: Usuarios/UsuariosConsulta
-        public ActionResult UsuariosConsulta()
+        public ActionResult UsuariosConsulta(int? page)
         {
             ServiceUsuariosR.ServiceUsuarioClient client = new ServiceUsuariosR.ServiceUsuarioClient();
-            var usuarios = client.ConsultarUsuarios(); // Llama al método del servicio para obtener los usuarios
+            var usuarios = client.ConsultarUsuarios(); // Obtener todos los usuarios desde el servicio
 
-            // Mapea los usuarios del tipo BUsuarios al modelo de vista UsuarioViewModel si es necesario
+            // Mapear los usuarios a ViewModel si es necesario
             var viewModelUsuarios = usuarios.Select(u => new UsuarioViewModel
             {
                 Id = u.Id,
@@ -78,7 +79,11 @@ namespace WebFrontUsuario.Controllers
                 Sexo = u.Sexo.ToString() // Asegúrate de convertir el sexo según corresponda
             }).ToList();
 
-            return View(viewModelUsuarios); // Retorna la vista con la lista de usuarios
+            // Configurar paginación
+            int pageSize = 5; // Número de registros por página
+            int pageNumber = (page ?? 1); // Número de página, si no se especifica, es la página 1
+
+            return View(viewModelUsuarios.ToPagedList(pageNumber, pageSize));
         }
 
 

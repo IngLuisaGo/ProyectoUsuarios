@@ -76,3 +76,90 @@ footer {
     padding: 10px 0; /* Padding for footer */
     text-align: center; /* Center align footer text */
 }
+
+/* Estilo para los enlaces de paginación */
+.pagination {
+    display: inline-block;
+    margin-bottom: 20px; /* Espacio al final del paginador */
+}
+
+    .pagination a {
+        color: #007bff; /* Color del texto de los enlaces */
+        padding: 8px 12px; /* Espaciado interno */
+        text-decoration: none; /* Sin subrayado */
+        border: 1px solid #007bff; /* Borde del enlace */
+        transition: background-color .3s; /* Transición de color de fondo */
+    }
+
+        .pagination a.active {
+            background-color: #007bff; /* Color de fondo activo */
+            color: white; /* Color de texto activo */
+            border-color: #007bff; /* Color de borde activo */
+        }
+
+        .pagination a:hover:not(.active) {
+            background-color: #f0f0f0; /* Cambio de color de fondo al pasar el ratón */
+        }
+
+    .pagination li.disabled {
+        pointer-events: none; /* Deshabilitar eventos de clic para elementos deshabilitados */
+        opacity: 0.5; /* Opacidad reducida para elementos deshabilitados */
+    }
+
+    .pagination > li {
+        display: inline;
+        padding: 6px 12px;
+        margin: 0;
+        
+    }
+
+        .pagination > li > a,
+        .pagination > li > span {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #337ab7;
+            text-decoration: none;
+            background-color: #fff;
+           
+        }
+
+        /* Estilo para el paginado activo */
+        .pagination > li.active > a,
+        .pagination > li.active > span,
+        .pagination > li.active > a:hover,
+        .pagination > li.active > span:hover,
+        .pagination > li.active > a:focus,
+        .pagination > li.active > span:focus {
+            z-index: 2;
+            color: #fff;
+            cursor: default;
+            background-color: #337ab7;
+            border-color: #337ab7;
+        }
+
+        /* Estilo para los enlaces de paginación al pasar el ratón */
+        .pagination > li > a:hover,
+        .pagination > li > span:hover,
+        .pagination > li > a:focus,
+        .pagination > li > span:focus {
+            z-index: 2;
+            color: #23527c;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+
+        /* Estilo para el paginado deshabilitado */
+        .pagination > li.disabled > span,
+        .pagination > li.disabled > span:hover,
+        .pagination > li.disabled > span:focus,
+        .pagination > li.disabled > a,
+        .pagination > li.disabled > a:hover,
+        .pagination > li.disabled > a:focus {
+            color: #777;
+            cursor: not-allowed;
+            background-color: #fff;
+            border-color: #ddd;
+        }

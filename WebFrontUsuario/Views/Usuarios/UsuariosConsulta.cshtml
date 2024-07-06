@@ -1,20 +1,11 @@
-﻿@model List<WebFrontUsuario.Models.UsuarioViewModel>
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<WebFrontUsuario.Models.UsuarioViewModel>
 
 @{
     ViewBag.Title = "Usuarios Consulta";
 }
 
 <h2>Usuarios Consulta</h2>
-
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Crear Usuario", "Usuarios", "Usuarios", null, new { @class = "navbar-link" })</li>
-            </ul>
-        </div>
-    </div>
-</div>
 
 <table class="table">
     <tr>
@@ -50,3 +41,8 @@
         </tr>
     }
 </table>
+
+<!-- Mostrar controles de paginación -->
+<div class="text-center">
+    @Html.PagedListPager(Model, page => Url.Action("UsuariosConsulta", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
