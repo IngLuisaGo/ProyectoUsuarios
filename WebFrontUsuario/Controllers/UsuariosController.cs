@@ -15,10 +15,10 @@ namespace WebFrontUsuario.Controllers
         public ActionResult Usuarios()
         {
             ViewBag.SexoList = new SelectList(new List<SelectListItem>
-            {
-                new SelectListItem { Text = "Masculino", Value = "M" },
-                new SelectListItem { Text = "Femenino", Value = "F" }
-            }, "Value", "Text");
+        {
+            new SelectListItem { Text = "Masculino", Value = "M" },
+            new SelectListItem { Text = "Femenino", Value = "F" }
+        }, "Value", "Text");
 
             return View();
         }
@@ -37,29 +37,17 @@ namespace WebFrontUsuario.Controllers
 
             if (ModelState.IsValid)
             {
-                // Llamar al método del servicio WCF para insertar el usuario
-                bool isInserted = client.InsertarUsuario(usuario);
+                model.Id = usuarioViewModel.Count + 1; // Generar un ID simple para el ejemplo
+                usuarioViewModel.Add(model);
 
-                if (isInserted)
-                {
-                    // Si la inserción es exitosa, agregar a la lista y redirigir
-                    model.Id = usuarioViewModel.Count + 1; // Generar un ID simple para el ejemplo
-                    usuarioViewModel.Add(model);
-
-                    return RedirectToAction("UsuariosConsulta");
-                }
-                else
-                {
-                    // Manejar el caso en que la inserción falle
-                    ModelState.AddModelError("", "No se pudo insertar el usuario en la base de datos.");
-                }
+                return RedirectToAction("UsuariosConsulta");
             }
 
             ViewBag.SexoList = new SelectList(new List<SelectListItem>
-            {
-                new SelectListItem { Text = "Masculino", Value = "M" },
-                new SelectListItem { Text = "Femenino", Value = "F" }
-            }, "Value", "Text");
+        {
+            new SelectListItem { Text = "Masculino", Value = "M" },
+            new SelectListItem { Text = "Femenino", Value = "F" }
+        }, "Value", "Text");
 
             return View(model);
         }
